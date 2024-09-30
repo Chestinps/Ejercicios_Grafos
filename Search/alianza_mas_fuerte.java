@@ -28,13 +28,36 @@ import java.util.*;
 
 public class alianza_mas_fuerte {
 
-    public static int DFS() {
-        return 0;
-        
-    }
-
     public static long calcularPuntos(int pN, int pM, List<List<Integer>> pAristas, List<Integer> pPuntos) {
         // Write your code here
-        return 0;
+        long maxPuntos = 0;
+        List<List<Integer>> grafo = new ArrayList<>();
+        for (int i = 0; i < pN; i++) {
+            grafo.add(new ArrayList<>());
+        }
+        for (int i = 0; i < pM; i++) {
+            int u = pAristas.get(i).get(0);
+            int v = pAristas.get(i).get(1);
+            grafo.get(u).add(v);
+            grafo.get(v).add(u);
+        }
+        for (int i = 0; i < pN; i++) {
+            long puntos = 0;
+            boolean[] visitados = new boolean[pN];
+            Stack<Integer> stack = new Stack<>();
+            stack.push(i);
+            while (!stack.isEmpty()) {
+                int current = stack.pop();
+                if (!visitados[current]) {
+                    visitados[current] = true;
+                    puntos += pPuntos.get(current);
+                    for (int vecino : grafo.get(current)) {
+                        stack.push(vecino);
+                    }
+                }
+            }
+            maxPuntos = Math.max(maxPuntos, puntos);
+        }
+        return maxPuntos;
     }
 }
